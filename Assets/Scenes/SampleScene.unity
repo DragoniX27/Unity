@@ -930,6 +930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d7cf2866296c743b196cd2c8bf6124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MagicAtackPrefab: {fileID: 6525119737299026367, guid: 0979f2ef63cd88d428e26ce65a15da1d, type: 3}
   Speed: 1
   JumpForce: 150
 --- !u!95 &1328466920

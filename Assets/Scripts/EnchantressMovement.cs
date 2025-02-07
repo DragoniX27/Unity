@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class EnchantressMovement : MonoBehaviour
 {
+    public GameObject MagicAtackPrefab;
     public float Speed;
     public float JumpForce;
     private Rigidbody2D Rigidbody2D;
     private Animator Animator;
     private float Horizontal;
     private bool Grounded;
+    private int AtackPhase = 0;
+
+    private bool Atacking;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,14 +44,36 @@ public class EnchantressMovement : MonoBehaviour
         }else{
             Animator.SetBool("Jumping", false);
         }
+
+        if(Input.GetKeyDown(KeyCode.K)){
+            if(Grounded && !Atacking){
+                Atacking = true;
+                if(AtackPhase < 2){
+                    AtackPhase = AtackPhase+1;
+                }
+                Atack();
+            }else{
+                AtackPhase = 0;
+            }
+        }
+        Animator.SetInteger("Atacking", AtackPhase);
+    }
+
+    private void Atack(){
+
+        GameObject atack = Instantiate(MagicAtackPrefab, transform.position + ((transform.localScale.x == 0.4f)? Vector3.right : Vector3.left) * 0.1f, Quaternion.identity);
+        atack.GetComponent<MagicAtackScript>().SetDirection(transform.localScale.x == 0.4f);
     }
 
     private void Jump(){
         Rigidbody2D.AddForce(Vector2.up * JumpForce);
     }
 
+    public void DisAtack(){
+        Atacking = false;
+    }
+
     private void FixedUpdate() {
         Rigidbody2D.linearVelocity = new Vector2(Horizontal, Rigidbody2D.linearVelocity.y);
-
     }
 }
